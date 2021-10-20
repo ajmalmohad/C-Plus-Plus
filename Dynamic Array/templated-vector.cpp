@@ -1,5 +1,6 @@
 #include <iostream>
 
+template <typename T>
 class MyVector{
     public:
         MyVector(int);
@@ -9,17 +10,17 @@ class MyVector{
         int capacity();
         bool is_empty();
         void memory_status();
-        void append(int);
-        void prepend(int);
-        void insert(int,int);
+        void append(T);
+        void prepend(T);
+        void insert(int,T);
         void delete_index(int);
         int get(int);
-        int find(int);
+        int find(T);
         int pop();
-        void remove(int);
+        void remove(T);
 
     private:
-        int *arr;
+        T *arr;
         int room;
         int length=0;
 
@@ -28,20 +29,23 @@ class MyVector{
 };
 
 //Constructor
-MyVector::MyVector(int init=2){
+template <typename T>
+MyVector<T>::MyVector(int init){
     room = init;
-    arr = (int*) calloc(room,sizeof(int));
+    arr = new T[room];
 }
 
 //Private
-void MyVector::resize(int r){
-    int *temp = (int*) calloc(room,sizeof(int));
+template <typename T>
+void MyVector<T>::resize(int r){
+    T *temp = new T[room];
     for (int i = 0; i < length; i++) *(temp+i) = *(arr+i);
     delete[] arr;
     arr = temp;
 }
 
-void MyVector::check_resize(){
+template <typename T>
+void MyVector<T>::check_resize(){
     if(length==room){
         room*=2;
         resize(room);
@@ -52,7 +56,8 @@ void MyVector::check_resize(){
 }
 
 //Public
-void MyVector::print(){
+template <typename T>
+void MyVector<T>::print(){
     std::cout<<"[";
     for (int i = 0; i < length; i++)
     {
@@ -62,35 +67,42 @@ void MyVector::print(){
     std::cout<<"]\n";
 }
 
-void MyVector::memory_status(){
+template <typename T>
+void MyVector<T>::memory_status(){
     for (int i = 0; i < room; i++) 
         std::cout<<arr+i<<" = "<<*(arr+i)<<'\n';
     std::cout<<'\n';
 }
 
-int MyVector::size(){
+template <typename T>
+int MyVector<T>::size(){
     return length;
 }
 
-int MyVector::capacity(){
+template <typename T>
+int MyVector<T>::capacity(){
     return room;
 }
 
-bool MyVector::is_empty(){
+template <typename T>
+bool MyVector<T>::is_empty(){
     return !length ? true: false;
 }
 
-void MyVector::append(int n){
+template <typename T>
+void MyVector<T>::append(T n){
     length++;
     check_resize();
     *(arr+(length-1))=n;
 };
 
-void MyVector::prepend(int n){
+template <typename T>
+void MyVector<T>::prepend(T n){
     insert(0,n);
 };
 
-void MyVector::insert(int i,int n){
+template <typename T>
+void MyVector<T>::insert(int i,T n){
     if(i>length || i<0) return;
     length++;
     check_resize();
@@ -98,15 +110,17 @@ void MyVector::insert(int i,int n){
     *(arr+i) = n;
 }
 
-int MyVector::pop(){
-    int temp = *(arr+(length-1));
+template <typename T>
+int MyVector<T>::pop(){
+    T temp = *(arr+(length-1));
     *(arr+(length-1))=0;
     length--;
     check_resize();
     return temp;
 }
 
-void MyVector::delete_index(int idx){
+template <typename T>
+void MyVector<T>::delete_index(int idx){
     if(idx>=length || idx<0) return;
     length--;
     for (int i = idx; i <length; i++) *(arr+i) = *(arr+(i+1));
@@ -114,16 +128,19 @@ void MyVector::delete_index(int idx){
     check_resize();
 }
 
-int MyVector::get(int i){
+template <typename T>
+int MyVector<T>::get(int i){
     return (i<length && i>=0) ? *(arr+i) : -1;
 }
 
-int MyVector::find(int v){
+template <typename T>
+int MyVector<T>::find(T v){
     for (int i = 0; i < length; i++) if(*(arr+i)==v)return i;
     return -1;
 }
 
-void MyVector::remove(int v){
+template <typename T>
+void MyVector<T>::remove(T v){
     for (int i = 0; i < length; i++){
         if(*(arr+i)==v){
             delete_index(i);
@@ -134,14 +151,12 @@ void MyVector::remove(int v){
 
 //Entry
 int main(){
-    MyVector myarr = MyVector();
-    myarr.append(8);
-    myarr.append(10);
-    myarr.append(10);
-    myarr.append(10);
-    myarr.append(10);
-    myarr.remove(10);
-    myarr.memory_status();
+    MyVector<std::string> myarr(2);
+    myarr.append("Hello");
+    myarr.append("My");
+    myarr.append("Dear");
+    myarr.append("Students");
+    myarr.print();
 };
 
 
@@ -157,3 +172,6 @@ int main(){
 // get(int); Gets element at specified index
 // find(int); Find index by value
 // pop(); Pops Last Item
+
+
+// http://hastebin.com/qoramudugo.cpp

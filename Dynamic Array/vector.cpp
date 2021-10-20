@@ -24,6 +24,7 @@ class MyVector{
         int length=0;
 
         void resize(int);
+        void check_resize();
 };
 
 //Constructor
@@ -40,6 +41,16 @@ void MyVector::resize(int r){
     arr = temp;
 }
 
+void MyVector::check_resize(){
+    if(length==room){
+        room*=2;
+        resize(room);
+    }else if(length<(room/4)){
+        room /= 2;
+        resize(room);
+    }
+}
+
 //Public
 void MyVector::print(){
     std::cout<<"[";
@@ -52,10 +63,8 @@ void MyVector::print(){
 }
 
 void MyVector::memory_status(){
-    for (int i = 0; i < room; i++)
-    {
+    for (int i = 0; i < room; i++) 
         std::cout<<arr+i<<" = "<<*(arr+i)<<'\n';
-    }
     std::cout<<'\n';
 }
 
@@ -73,30 +82,18 @@ bool MyVector::is_empty(){
 
 void MyVector::append(int n){
     length++;
-    if(length==room){
-        room*=2;
-        resize(room);
-    }
+    check_resize();
     *(arr+(length-1))=n;
 };
 
 void MyVector::prepend(int n){
-    length++;
-    if(length==room){
-        room*=2;
-        resize(room);
-    }
-    for (int i = length; i > 0 ; i--) *(arr+i) = *(arr+(i-1));
-    *(arr)=n;
+    insert(0,n);
 };
 
 void MyVector::insert(int i,int n){
     if(i>length || i<0) return;
     length++;
-    if(length==room){
-        room*=2;
-        resize(room);
-    }
+    check_resize();
     for (int j = length; j >i ; j--) *(arr+(j-1)) = *(arr+(j-2));
     *(arr+i) = n;
 }
@@ -105,25 +102,16 @@ int MyVector::pop(){
     int temp = *(arr+(length-1));
     *(arr+(length-1))=0;
     length--;
-    if(length<(room/4)){
-        room /= 2;
-        resize(room);
-    }
+    check_resize();
     return temp;
 }
 
 void MyVector::delete_index(int idx){
     if(idx>=length || idx<0) return;
     length--;
-    for (int i = idx; i <length; i++)
-    {
-        *(arr+i) = *(arr+(i+1));
-    }
+    for (int i = idx; i <length; i++) *(arr+i) = *(arr+(i+1));
     *(arr+length)=0;
-    if(length<(room/4)){
-        room /= 2;
-        resize(room);
-    }
+    check_resize();
 }
 
 int MyVector::get(int i){
@@ -131,16 +119,12 @@ int MyVector::get(int i){
 }
 
 int MyVector::find(int v){
-    for (int i = 0; i < length; i++)
-    {
-        if(*(arr+i)==v)return i;
-    }
+    for (int i = 0; i < length; i++) if(*(arr+i)==v)return i;
     return -1;
 }
 
 void MyVector::remove(int v){
-    for (int i = 0; i < length; i++)
-    {
+    for (int i = 0; i < length; i++){
         if(*(arr+i)==v){
             delete_index(i);
             i--;
@@ -151,13 +135,12 @@ void MyVector::remove(int v){
 //Entry
 int main(){
     MyVector myarr = MyVector();
+    myarr.append(8);
     myarr.append(10);
-    myarr.append(8);
-    myarr.append(8);
-    myarr.append(8);
-    myarr.append(8);
-    myarr.remove(8);
-    myarr.pop();
+    myarr.append(10);
+    myarr.append(10);
+    myarr.append(10);
+    myarr.remove(10);
     myarr.memory_status();
 };
 
