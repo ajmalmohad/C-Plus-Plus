@@ -15,8 +15,8 @@ Node::Node(){
     data = 0;
     next = NULL;
 }
-Node::Node(int data){
-    data = data;
+Node::Node(int value){
+    data = value;
     next = NULL;
 }
 
@@ -51,13 +51,11 @@ void LinkedList::append(Node* node){
         head = node;
         tail = head;
         size++;
-        std::cout<<"append::Node Appended\n";
     }else{
         Node* temp = head;
         while(temp->next!=NULL) temp = temp->next;
         temp->next = node;
         size++;
-        std::cout<<"append::Node Appended\n";
     }
 };
 void LinkedList::prepend(Node* node){
@@ -66,7 +64,6 @@ void LinkedList::prepend(Node* node){
         node->next=head;
         head=node;
         size++;
-        std::cout<<"prepend::Node Prepended\n";
     }
 }
 void LinkedList::insert(int i,Node* node){
@@ -78,11 +75,19 @@ void LinkedList::insert(int i,Node* node){
         append(node);
     }else{
         Node* temp = head;
-        for (int j = 0; j < i; j++) temp = temp->next;
-        node->next = temp;
-        temp = node;
-        std::cout<<"insert::Inserted at index:"<<i<<"\n";
+        for (int j = 0; j < i-1; j++) temp = temp->next;
+        node->next = temp->next;
+        temp->next = node;
+        size++;
     }
+}
+void LinkedList::print(){
+    Node* temp = head;
+    while(temp!=NULL){
+        std::cout<<temp->data<<" -> ";
+        temp=temp->next;
+    }
+    std::cout<<" Null\n";
 }
 
 /* 
@@ -91,9 +96,12 @@ Entry
 int main(){
     LinkedList ll;
     Node one(10);
-    Node two(10);
-    Node three(10);
+    Node two(20);
+    Node three(30);
+    Node four(40);
     ll.append(&one);
     ll.append(&two);
+    ll.append(&four);
     ll.insert(1,&three);
+    ll.print();
 }
