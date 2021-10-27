@@ -17,6 +17,7 @@ Node::Node(){
 }
 Node::Node(int data){
     data = data;
+    next = NULL;
 }
 
 /* 
@@ -29,6 +30,7 @@ class LinkedList{
     void append(Node*);
     void prepend(Node *);
     void insert(int, Node*);
+    void print();
 
     int size;
     Node* head;
@@ -70,6 +72,16 @@ void LinkedList::prepend(Node* node){
 void LinkedList::insert(int i,Node* node){
     if(i > size || i<0){
         std::cout<<"insert::Enter a Valid Index\n";
+    }else if(i==0){
+        prepend(node);
+    }else if(i==size){
+        append(node);
+    }else{
+        Node* temp = head;
+        for (int j = 0; j < i; j++) temp = temp->next;
+        node->next = temp;
+        temp = node;
+        std::cout<<"insert::Inserted at index:"<<i<<"\n";
     }
 }
 
@@ -80,6 +92,8 @@ int main(){
     LinkedList ll;
     Node one(10);
     Node two(10);
-    ll.prepend(&one);
-    ll.insert(0,&two);
+    Node three(10);
+    ll.append(&one);
+    ll.append(&two);
+    ll.insert(1,&three);
 }
