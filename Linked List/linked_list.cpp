@@ -22,10 +22,10 @@ Node::Node(int value){
 class LinkedList{
     public:
     LinkedList();
-    LinkedList(Node*);
-    void append(Node*);
-    void prepend(Node *);
-    void insert(int, Node*);
+    LinkedList(int);
+    void append(int);
+    void prepend(int);
+    void insert(int, int);
     void print();
 
     int size;
@@ -37,39 +37,41 @@ LinkedList::LinkedList(){
     head = NULL;
     tail = NULL;
 };
-LinkedList::LinkedList(Node *node){
-    head = node;
+LinkedList::LinkedList(int value){
+    head = new Node(value);
     tail = head;
     size++;
 };
-void LinkedList::append(Node* node){
+void LinkedList::append(int value){
     if(size==0){
-        head = node;
+        head = new Node(value);
         tail = head;
         size++;
     }else{
         Node* temp = head;
         while(temp->next!=NULL) temp = temp->next;
-        temp->next = node;
+        temp->next = new Node(value);
         size++;
     }
 };
-void LinkedList::prepend(Node* node){
-    if(size==0) append(node);
+void LinkedList::prepend(int value){
+    if(size==0){
+        append(value);
+    }
     else{
+        Node* node = new Node(value);
         node->next=head;
         head=node;
         size++;
     }
 }
-void LinkedList::insert(int i,Node* node){
+void LinkedList::insert(int i,int value){
     if(i > size || i<0){
         std::cout<<"insert::Enter a Valid Index\n";
     }else if(i==0){
-        prepend(node);
-    }else if(i==size){
-        append(node);
+        prepend(value);
     }else{
+        Node* node = new Node(value);
         Node* temp = head;
         for (int j = 0; j < i-1; j++) temp = temp->next;
         node->next = temp->next;
@@ -91,13 +93,10 @@ Entry
 */
 int main(){
     LinkedList ll;
-    Node one(10);
-    Node two(20);
     Node three(30);
-    Node four(40);
-    ll.append(&one);
-    ll.append(&two);
-    ll.append(&four);
-    ll.insert(1,&three);
+    ll.append(10);
+    ll.append(20);
+    ll.append(30);
+    ll.insert(2,40);
     ll.print();
 }
