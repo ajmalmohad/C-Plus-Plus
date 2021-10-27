@@ -1,8 +1,6 @@
 #include <iostream>
 
-/* 
-Node
-*/
+// Node 
 class Node{
     public:
     Node();
@@ -20,9 +18,7 @@ Node::Node(int value){
     next = NULL;
 }
 
-/* 
-Linked List
-*/
+// Linked List
 class LinkedList{
     public:
     LinkedList();
