@@ -70,6 +70,8 @@ void LinkedList::insert(int i,int value){
         std::cout<<"insert::Enter a Valid Index\n";
     }else if(i==0){
         prepend(value);
+    }else if(i==size){
+        append(value);
     }else{
         Node* node = new Node(value);
         Node* temp = head;
