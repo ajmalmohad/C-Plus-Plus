@@ -28,6 +28,8 @@ class LinkedList{
     void insert(int, int);
     void print();
     int getsize();
+    int front();
+    int back();
     int get(int);
 
     private:
@@ -51,9 +53,8 @@ void LinkedList::append(int value){
         tail = head;
         size++;
     }else{
-        Node* temp = head;
-        while(temp->next!=NULL) temp = temp->next;
-        temp->next = new Node(value);
+        tail->next = new Node(value);
+        tail = tail->next;
         size++;
     }
 };
@@ -95,6 +96,12 @@ int LinkedList::get(int i){
 int LinkedList::getsize(){
     return size;
 }
+int LinkedList::front(){
+    return head->data;
+}
+int LinkedList::back(){
+    return tail->data;
+}
 void LinkedList::print(){
     Node* temp = head;
     while(temp!=NULL){
@@ -112,8 +119,10 @@ int main(){
     Node three(30);
     ll.append(10);
     ll.append(20);
-    ll.append(30);
-    ll.insert(2,40);
+    ll.prepend(30);
+    ll.insert(3,80);
     ll.print();
-    std::cout<<"Size:"<<ll.getsize();
+
+    std::cout<<"Front: "<<ll.front()<<'\n';
+    std::cout<<"Back: "<<ll.back();
 }
