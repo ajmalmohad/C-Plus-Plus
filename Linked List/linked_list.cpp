@@ -26,16 +26,22 @@ class LinkedList{
     void append(int);
     void prepend(int);
     void insert(int, int);
+    bool empty();
     void print();
     int getsize();
     int front();
     int back();
     int get(int);
+    int remove(int);
+    int pop_back();
+    int pop_front();
 
     private:
     int size;
     Node* head;
     Node* tail;
+
+    void checkEmpty();
 };
 LinkedList::LinkedList(){
     size = 0;
@@ -47,6 +53,12 @@ LinkedList::LinkedList(int value){
     tail = head;
     size++;
 };
+void LinkedList::checkEmpty(){
+    if(size==0){
+        head=NULL;
+        tail=NULL;
+    }
+}
 void LinkedList::append(int value){
     if(size==0){
         head = new Node(value);
@@ -85,22 +97,68 @@ void LinkedList::insert(int i,int value){
         size++;
     }
 }
+bool LinkedList::empty(){
+    if(size==0)return 1;
+    else return 0;
+}
 int LinkedList::get(int i){
     if(i>=0 && i<size){
         Node* temp = head;
         for (int j = 0; j < i; j++) temp = temp->next;
         return temp->data;
+    }else{
+        return -1;
     }
-    return -1;
 }
 int LinkedList::getsize(){
     return size;
 }
 int LinkedList::front(){
-    return head->data;
+    if(head!=NULL) return head->data;
+    else return -1;
 }
 int LinkedList::back(){
-    return tail->data;
+    if(tail!=NULL) return tail->data;
+    else return -1;
+}
+int LinkedList::remove(int i){
+    if(head==NULL){
+        return -1;
+        std::cout<<"remove:Head is Null";
+    }
+    if(i>=1 && i<size){
+        Node* temp = head;
+        for (int j = 0; j < i-1; j++) temp = temp->next;
+        Node* nextnode = temp->next->next;
+        int value = temp->next->data; 
+        delete temp->next;
+        temp->next = nextnode;
+        size--;
+        checkEmpty();
+        return value;
+    }else if(i==0){
+        return pop_front();
+    }else{
+        std::cout<<"remove::Can't Remove\n";
+        return -1;
+    }
+}
+int LinkedList::pop_back(){
+    if(tail!=NULL) return remove(size-1);
+    else return -1;
+}
+int LinkedList::pop_front(){
+    if(head!=NULL){
+        int value = head->data;
+        Node* temp = head->next;
+        delete head;
+        head = temp;
+        size--;
+        checkEmpty();
+        return value;
+    }else{
+        return -1;
+    }
 }
 void LinkedList::print(){
     Node* temp = head;
@@ -116,13 +174,12 @@ Entry
 */
 int main(){
     LinkedList ll;
-    Node three(30);
     ll.append(10);
     ll.append(20);
-    ll.prepend(30);
-    ll.insert(3,80);
-    ll.print();
-
-    std::cout<<"Front: "<<ll.front()<<'\n';
-    std::cout<<"Back: "<<ll.back();
+    ll.append(30);
+    ll.append(40);
+    ll.pop_back();
+    ll.pop_back();
 }
+
+//Powershell: g++ linked_list.cpp -o linked_list; .\linked_list
