@@ -27,6 +27,7 @@ class LinkedList{
     void prepend(int);
     void insert(int, int);
     void print();
+    int get(int);
 
     int size;
     Node* head;
@@ -80,6 +81,14 @@ void LinkedList::insert(int i,int value){
         temp->next = node;
         size++;
     }
+}
+int LinkedList::get(int i){
+    if(i>=0 && i<size){
+        Node* temp = head;
+        for (int j = 0; j < i; j++) temp = temp->next;
+        return temp->data;
+    }
+    return -1;
 }
 void LinkedList::print(){
     Node* temp = head;
