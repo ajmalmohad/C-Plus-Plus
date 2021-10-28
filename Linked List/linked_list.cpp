@@ -27,7 +27,8 @@ class LinkedList{
     void prepend(int);
     void insert(int, int);
     void removevalue(int);
-    void reverse();
+    void reverse_iterative();
+    void reverse_recursive(Node*);
     bool empty();
     void print();
     int getsize();
@@ -38,6 +39,7 @@ class LinkedList{
     int find(int);
     int pop_back();
     int pop_front();
+    Node* getHead();
 
     private:
     int size;
@@ -60,6 +62,9 @@ void LinkedList::checkEmpty(){
         head=NULL;
         tail=NULL;
     }
+}
+Node* LinkedList::getHead(){
+    return head;
 }
 void LinkedList::append(int value){
     if(size==0){
@@ -197,7 +202,7 @@ int LinkedList::find(int value){
         return -1;
     }
 }
-void LinkedList::reverse(){
+void LinkedList::reverse_iterative(){
     if (head == NULL || head->next == NULL) return;
     Node* prev = NULL;
     Node* current = head;
@@ -210,6 +215,17 @@ void LinkedList::reverse(){
     }
     tail = head;
     head = prev;
+}
+void LinkedList::reverse_recursive(Node* node){
+    if (head == NULL || head->next == NULL) return;
+    if(node->next == NULL){
+        head = node;
+        return;
+    };
+    reverse_recursive(node->next);
+    Node* nextnode = node->next;
+    nextnode->next = node;
+    node->next = NULL;
 }
 void LinkedList::print(){
     Node* temp = head;
@@ -229,7 +245,7 @@ int main(){
     ll.append(20);
     ll.append(30);
     ll.append(40);
-    ll.reverse();
+    ll.reverse_recursive(ll.getHead());
     ll.print();
 }
 
