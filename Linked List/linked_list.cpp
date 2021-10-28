@@ -219,6 +219,7 @@ void LinkedList::reverse_iterative(){
 void LinkedList::reverse_recursive(Node* node){
     if (head == NULL || head->next == NULL) return;
     if(node->next == NULL){
+        tail=head;
         head = node;
         return;
     };
