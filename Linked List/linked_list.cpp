@@ -27,8 +27,10 @@ class LinkedList{
     void prepend(int);
     void insert(int, int);
     void print();
+    int getsize();
     int get(int);
 
+    private:
     int size;
     Node* head;
     Node* tail;
@@ -90,6 +92,9 @@ int LinkedList::get(int i){
     }
     return -1;
 }
+int LinkedList::getsize(){
+    return size;
+}
 void LinkedList::print(){
     Node* temp = head;
     while(temp!=NULL){
@@ -110,4 +115,5 @@ int main(){
     ll.append(30);
     ll.insert(2,40);
     ll.print();
+    std::cout<<"Size:"<<ll.getsize();
 }
