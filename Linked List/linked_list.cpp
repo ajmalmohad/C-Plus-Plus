@@ -26,6 +26,8 @@ class LinkedList{
     void append(int);
     void prepend(int);
     void insert(int, int);
+    void removevalue(int);
+    void reverse();
     bool empty();
     void print();
     int getsize();
@@ -33,6 +35,7 @@ class LinkedList{
     int back();
     int get(int);
     int remove(int);
+    int find(int);
     int pop_back();
     int pop_front();
 
@@ -40,7 +43,6 @@ class LinkedList{
     int size;
     Node* head;
     Node* tail;
-
     void checkEmpty();
 };
 LinkedList::LinkedList(){
@@ -160,6 +162,41 @@ int LinkedList::pop_front(){
         return -1;
     }
 }
+void::LinkedList::removevalue(int value){
+    if(head!=NULL){
+        Node* temp = head;
+        int index = 0;
+        while(temp!=NULL){
+            if(temp->data==value){
+                remove(index);
+                return;
+            }
+            index++;
+            temp = temp->next;
+        }
+        std::cout<<"removevalue::Item not found\n";
+    }else{
+        std::cout<<"removevalue::Head is Null\n";
+    }
+}
+int LinkedList::find(int value){
+    if(head!=NULL){
+        Node* temp = head;
+        int index = 0;
+        while(temp!=NULL){
+            if(temp->data==value){
+                return index;
+            }
+            index++;
+            temp = temp->next;
+        }
+        std::cout<<"find::Item not found\n";
+        return -1;
+    }else{
+        std::cout<<"find::Head is Null\n";
+        return -1;
+    }
+}
 void LinkedList::print(){
     Node* temp = head;
     while(temp!=NULL){
@@ -178,8 +215,6 @@ int main(){
     ll.append(20);
     ll.append(30);
     ll.append(40);
-    ll.pop_back();
-    ll.pop_back();
 }
 
 //Powershell: g++ linked_list.cpp -o linked_list; .\linked_list
