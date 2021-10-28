@@ -197,6 +197,20 @@ int LinkedList::find(int value){
         return -1;
     }
 }
+void LinkedList::reverse(){
+    if (head == NULL || head->next == NULL) return;
+    Node* prev = NULL;
+    Node* current = head;
+    Node* next;
+    while(current!=NULL){
+        next = current->next; 
+        current->next = prev;
+        prev = current;
+        current = next;
+    }
+    tail = head;
+    head = prev;
+}
 void LinkedList::print(){
     Node* temp = head;
     while(temp!=NULL){
@@ -215,6 +229,8 @@ int main(){
     ll.append(20);
     ll.append(30);
     ll.append(40);
+    ll.reverse();
+    ll.print();
 }
 
 //Powershell: g++ linked_list.cpp -o linked_list; .\linked_list
